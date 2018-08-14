@@ -1,0 +1,84 @@
+/*
+MAP.LEEK
+This file contains operations directed toward map awareness and analysis and all other operations concerning the map
+*/
+
+include("Math.leek");
+
+function closestObstaclToCell(_cell){
+	var obstacle = false;
+	var cellX = getCellX(_cell);
+	var cellY = getCellY(_cell);
+	var layer = 0;
+	var obstacleX;
+	var obstacleY;
+	while(!obstacle){
+		for(var x = -layer; x <= layer; x++){
+			for(var y= -layer; y <= layer; y++){
+				if(!obstacle){
+					obstacle = isObstacle(getCellFromXY(x, y));
+					obstacleX = x;
+					obstacleY = y;
+				}
+			}
+		}
+		layer++;
+	}
+	return getCellFromXY( obstacleX , obstacleY);
+}
+
+function closestFreeCellToObstacle(_Obstacle, _originCell){
+	var distance = getDistance(_Obstacle, _originCell);
+	var cellX = -1;
+	var cellY = -1;
+	for (var x = -1; x <= 1; x++){
+		for (var y = -1; y <= 1; y++){
+			if (!isObstacle(getCellFromXY(x, y))){
+				if(getDistance(_originCell, getCellFromXY(x, y)) < getDistance(_originCell, getCellFromXY(cellX, cellY))){
+					cellX = x;
+					cellY = y;
+				}else if (cellX == -1 && cellY == -1){
+					cellX = x;
+					cellY = y;
+				}
+			}
+		}
+	}
+	return getCellFromXY(cellX, cellY);
+}
+
+function distanceToTop(_cell) {
+	if (_cell == null || _cell == 0 || _cell == "this"){
+		_cell = getCell();
+	}
+	return distanceTo("top", _cell);
+}
+function distanceToBottom(_cell) {
+	if (_cell == null || _cell == 0 || _cell == "this"){
+		_cell = getCell();
+	}
+	return distanceTo("bottom", _cell);
+}
+function distanceToLeft(_cell) {
+	if (_cell == null || _cell == 0 || _cell == "this"){
+		_cell = getCell();
+	}
+	return distanceTo("left", _cell);
+}function distanceToRight(_cell) {
+	if (_cell == null || _cell == 0 || _cell == "this"){
+		_cell = getCell();
+	}
+	return distanceTo("right", _cell);
+}
+
+function distanceTo(_direction, _cell){
+	if(_direction === "top"){
+
+	}else if(_direction === "bottom"){
+
+	}else if(_direction === "left"){
+
+	}else if(_direction === "right"){
+
+	}
+}
