@@ -5,6 +5,20 @@ This file contains operations directed toward map awareness and analysis and all
 
 include("Math.leek");
 
+global MAP_ZONE_ERROR = -1;
+global MAP_ZONE_SAFE = 0;
+global MAP_ZONE_DANGEROUS = 1;
+global MAP_ZONE_CRITICAL = 2;
+
+global MAP_DIRECTION_UP = 0;
+global MAP_DIRECTION_DOWN = 1;
+global MAP_DIRECTION_LEFT = 2;
+global MAP_DIRECTION_RIGHT = 3;
+
+global MAP_TRUE = 1;
+global MAP_FALSE = 0;
+
+
 function closestObstaclToCell(_cell){
 	var obstacle = false;
 	var cellX = getCellX(_cell);
@@ -47,38 +61,87 @@ function closestFreeCellToObstacle(_Obstacle, _originCell){
 	return getCellFromXY(cellX, cellY);
 }
 
-function distanceToTop(_cell) {
-	if (_cell == null || _cell == 0 || _cell == "this"){
-		_cell = getCell();
-	}
-	return distanceTo("top", _cell);
-}
-function distanceToBottom(_cell) {
-	if (_cell == null || _cell == 0 || _cell == "this"){
-		_cell = getCell();
-	}
-	return distanceTo("bottom", _cell);
-}
-function distanceToLeft(_cell) {
-	if (_cell == null || _cell == 0 || _cell == "this"){
-		_cell = getCell();
-	}
-	return distanceTo("left", _cell);
-}function distanceToRight(_cell) {
-	if (_cell == null || _cell == 0 || _cell == "this"){
-		_cell = getCell();
-	}
-	return distanceTo("right", _cell);
-}
 
 function distanceTo(_direction, _cell){
-	if(_direction === "top"){
-
-	}else if(_direction === "bottom"){
-
-	}else if(_direction === "left"){
-
-	}else if(_direction === "right"){
-
+	if (_cell == null || _cell == 0 || _cell == "this"){
+		_cell = getCell();
 	}
+
+	if(_direction === MAP_DIRECTION_UP){
+		return pullDistance(MAP_TRUE, MAP_FALSE, MAP_FALSE, MAP_FALSE, _cell);
+	}else if(_direction === MAP_DIRECTION_DOWN){
+		return pullDistance(MAP_FALSE, MAP_TRUE, MAP_FALSE, MAP_FALSE, _cell);
+	}else if(_direction === MAP_DIRECTION_LEFT){
+		return pullDistance(MAP_FALSE, MAP_FALSE, MAP_TRUE, MAP_FALSE, _cell);
+	}else if(_direction === MAP_DIRECTION_RIGHT){
+		return pullDistance(MAP_FALSE, MAP_FALSE, MAP_FALSE, MAP_TRUE, _cell);
+	}else{
+		return null;
+	}
+}
+
+function pullDistance(_up, _down, _left, _right, _cell){
+	var loop = 50;
+	var cellY = getCellY(_cell);
+	var cellX = getCellX(_cell);
+	var xMax, yMax, xMin, yMin;
+	xMax = 0;
+	xMin = 0;
+	yMax = 0;
+	yMin = 0;
+	//calculating xMax
+	for (var x = 0; x <= loop; x++){
+	//calculating yMax
+		for (var y = 0; y <=loop; y++){
+			if (getCellFromXY(cellX + x,cellY + y) != null){
+				x > xMax ? xMax = x: null;
+				y > yMax ? yMax = y: null;
+			}
+		}
+		//calculating yMin
+		for (var y = 0; y >= -loop; y--){
+			if (getCellFromXY(cellX + x,cellY + y) != null){
+				x > xMax ? xMax = x: null;
+				y < yMin ? yMin = y: null;
+			}
+		}
+	}
+	//calculating xMin
+	for (var x = 0; x >= -loop; x--){
+	//calculating yMin
+		for (var y = 0; y >= -loop; y--){
+			if (getCellFromXY(cellX + x,cellY + y) != null){
+				x < xMin ? xMin = x: null;
+				y < yMin ? yMin = y: null;
+			}
+		}
+		//calculating yMax
+		for (var y = 0; y <=loop; y++){
+			if (getCellFromXY(cellX + x,cellY + y) != null){
+				x < xMin ? xMin = x: null;
+				y > yMax ? yMax = y: null;
+			}
+		}
+	}
+	return xMax*_down + xMin*_up + yMax*_left + yMin*_right;
+}
+
+function getMapCoordinates(_cell){
+	//returns an array of the coordinates of given _cell
+	var up = distanceTo(MAP_DIRECTION_UP, _cell);
+	var down = distanceTo(MAP_DIRECTION_DOWN, _cell);
+	var left = distanceTo(MAP_DIRECTION_LEFT, _cell);
+	var right = distanceTo(MAP_DIRECTION_RIGHT, _cell);
+	return [up, down, left, right];
+}
+
+function closestToObstacle(_cell, _originCell){
+	return closestFreeCellToObstacle(closestObstaclToCell(_cell), _originCell);
+}
+
+function getMapZone(_zone){
+	//get enemies
+	//for each enemy get range
+	//create list of cells in line of fire of enemies currrently equipped weapon if posssible, 10 range default if no weapon equipped
+
 }
