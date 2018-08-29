@@ -4,7 +4,7 @@ This file is to contain all the functions necessary to the leek's movement and s
 */
 
 
-include("Math.leek");
+//include("Math.leek");
 include("Map.leek");
 
 function moveToTarget(_target, _steps){
@@ -16,8 +16,4 @@ function moveSafeTarget(_target, _maxDistance){
 determin safe distance and replace _maxDistance by a safe distance away from target within _maxDistance range
 */
 	moveTowardCell(closestToObstacle(_target, getCell()), _maxDistance);
-}
-
-function closestToObstacle(_cell, _originCell){
-	return closestFreeCellToObstacle(closestObstaclToCell(_cell), _originCell);
 }

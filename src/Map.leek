@@ -9,6 +9,7 @@ global MAP_ZONE_ERROR = -1;
 global MAP_ZONE_SAFE = 0;
 global MAP_ZONE_DANGEROUS = 1;
 global MAP_ZONE_CRITICAL = 2;
+global MAP_ZONE_DANGEROUS_OBST = 3;
 
 global MAP_DIRECTION_UP = 0;
 global MAP_DIRECTION_DOWN = 1;
@@ -139,7 +140,7 @@ function closestToObstacle(_cell, _originCell){
 	return closestFreeCellToObstacle(closestObstaclToCell(_cell), _originCell);
 }
 
-function getMapZone(_zone){
+function getMapZoneCells(_zone){
 	//get enemies
 	//for each enemy get range
 	//create list of cells in line of fire of enemies currrently equipped weapon if posssible, 10 range default if no weapon equipped
