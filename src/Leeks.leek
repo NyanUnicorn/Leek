@@ -1,0 +1,66 @@
+/*
+LEEKS.LEEK
+This file contains functions relative to the sourcing of leeks and teams for both allies and enemies
+*/
+include("Map.leek");
+
+
+global LEEK_ALLY = 0;
+global LEEK_ENEMY = 1;
+
+global LEEK_PROFILE = "LP00";
+global LEEK_TEAM_PROFILE = "LPT0";
+
+function getProfileEnemies(){
+	return split(getRegister(LEEK_TEAM_PROFILE + LEEK_ENEMY), ";", 4);
+}
+
+function initProfileEnemeies(){
+	var enemies = getEnemies();
+	var enemyCount = getEnemiesCount();
+	var key = "#5" + LEEK_TEAM_PROFILE + LEEK_ENEMY;
+	var value = "";
+	for (var i = 0; i < enemyCount; i++){
+		var pKey = initProfileLeek(enemies[i], LEEK_ENEMY, i);
+		value += pKey + ";";
+	}
+	if(!setRegister(key, value)){
+		deleteRegister(key);
+	}
+	!setRegister(key, value);
+}
+
+function initProfileAllies(){
+	var allies = getAllies();
+	var allyCount = getAlliesCount();
+	var key = "#5" + LEEK_TEAM_PROFILE + LEEK_ALLY;
+	var value = "";
+	for (var i = 0; i < allyCount; i++){
+		var pKey = initProfileLeek(allies[i], LEEK_ALLY, i);
+		value += pKey;
+	}
+	if(!setRegister(key, value)){
+		deleteRegister(key);
+	}
+	!setRegister(key, value);
+}
+
+function initProfileLeek(_leek, _team, _num){
+// fetches the maximum data concerning a leek
+	var id = _leek;
+	var hp = getLife(_leek);
+	var mp = getMP(_leek);
+	var tp = getTP(_leek);
+	var weapons = getWeapons(_leek);
+	var chips = getChips(_leek);
+	var coord = getMapCoordinates(getCell(_leek));
+	var key = _team === LEEK_ENEMY ? LEEK_PROFILE + LEEK_ENEMY +_num : _team === LEEK_ALLY ? LEEK_PROFILE + LEEK_ALLY +_num : "#ERROR";
+	var S = ";";
+	var value = id+hp+S+mp+S+tp+S+weapons+S+chips+S+coord;
+	//debug(value);
+	if(!setRegister("#" + length(key) + key, value)){
+		deleteRegister("#" + length(key) + key);
+	}
+	setRegister("#" + length(key) + key, value);
+	return key;
+}

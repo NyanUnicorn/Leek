@@ -4,7 +4,7 @@ This file is to contain all the functions necessary to the leek's movement and s
 */
 
 
-include("Math.leek");
+//include("Math.leek");
 include("Map.leek");
 
 function moveToTarget(_target, _steps){

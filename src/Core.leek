@@ -3,9 +3,22 @@ CORE.LEEK
 This file is main. Here the thought process for the leak is set (and can be used on any leek). What the leek will actually do is down to "Leek.run".
 */
 
-/*
-In order to run this AI you must create it's personalised running environement. Maybe a default will be created when this project has reached a fairly good level'
-*/
+include("Map.leek");
+include("Leeks.leek");
+include("Tools.leek");
 include("leek.run");
 
-leekInit();
+
+
+
+if(getTurn() <= 1){
+	init();
+}
+
+function init(){
+	deleteRegisters() ? null : debug("Registers delete error" + getRegisters());
+	initProfileEnemeies();
+	initProfileAllies();
+	//debug(getProfileEnemies());
+	debug(getRegisters());
+}
