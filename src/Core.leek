@@ -1,3 +1,11 @@
 /*
-
+CORE.LEEK
+This file is main. Here the thought process for the leak is set (and can be used on any leek). What the leek will actually do is down to "Leek.run".
 */
+
+/*
+In order to run this AI you must create it's personalised running environement. Maybe a default will be created when this project has reached a fairly good level'
+*/
+include("leek.run");
+
+leekInit();

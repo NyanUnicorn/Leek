@@ -17,7 +17,3 @@ determin safe distance and replace _maxDistance by a safe distance away from tar
 */
 	moveTowardCell(closestToObstacle(_target, getCell()), _maxDistance);
 }
-
-function closestToObstacle(_cell, _originCell){
-	return closestFreeCellToObstacle(closestObstaclToCell(_cell), _originCell);
-}
